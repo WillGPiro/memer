@@ -45,6 +45,33 @@ describe('meme routes', () => {
       });
   });
   
+  it('updates an meme by id', async() => {
+    const meme = await getMeme();
+
+    return request(app)
+      .patch(`/api/v1/memes/${meme._id}`)
+      .send({ top: 'New Top Text', image: 'https://www.placekitten.com/c/200/300', bottom: 'Some witty bottom text' })
+      .then(res => {
+        expect(res.body).toEqual({
+          ...meme,
+          // top: 'New Top Text',
+          // image: 'https://www.placekitten.com/c/200/300',
+          // bottom: 'Some witty bottom text'
+        });
+      });
+  });
+
+  it('deletes an meme by id', async() => {
+    const meme = await getMeme();
+
+    return request(app)
+      .delete(`/api/v1/memes/${meme._id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          ...meme
+        });
+      });
+  });
 
 });
 
